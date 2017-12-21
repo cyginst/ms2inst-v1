@@ -6,10 +6,11 @@ if "%1"=="SUBPROC" goto skip_init
 
 set MSYS2_NAME=ms2inst
 set MSYS2_BITS=32
-set MSYS2_PKGS=diffutils,procps,psmisc
-set MSYS2_PKGS=%MSYS2_PKGS%,tmux-git &:: THIS IS TMUX
-set MSYS2_PKGS=%MSYS2_PKGS%,vim      &:: THIS IS VIM
-set MSYS2_PKGS=%MSYS2_PKGS%,         &:: THIS IS EMPTY
+set MSYS2_PKGS=mingw-w64-i686-qt5
+::set MSYS2_PKGS=diffutils,procps,psmisc
+::set MSYS2_PKGS=%MSYS2_PKGS%,tmux-git &:: THIS IS TMUX
+::set MSYS2_PKGS=%MSYS2_PKGS%,vim      &:: THIS IS VIM
+::set MSYS2_PKGS=%MSYS2_PKGS%,         &:: THIS IS EMPTY
 set MSYS2_USE_MINGW32=1
 set MSYS2_USE_MINGW64=1
 set MSYS2_USE_MSYS=1
@@ -51,7 +52,8 @@ if not exist "%MSYS2_ROOT%" (
     .binaries\7z.exe x -y -o"%MSYS2_ROOT%.tmp" ".binaries\%MSYS2_SETUP%" && move "%MSYS2_ROOT%.tmp" "%MSYS2_ROOT%"
 )
 set HOME=%MSYS2_ROOT%
-set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
+::set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
+set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Syuu"
 echo %cmd%
 %cmd%
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pkgfile --update"
