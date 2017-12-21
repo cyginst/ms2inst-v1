@@ -58,6 +58,9 @@ echo %cmd%
 %cmd%
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pkgfile --update"
 echo %cmd%
+set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
+echo %cmd%
+%cmd%
 %cmd%
 if not "%MSYS2_PKGS%"=="" (
   for %%a in ("%MSYS2_PKGS:,=" "%") do (
