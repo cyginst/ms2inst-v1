@@ -5,7 +5,7 @@ setlocal ENABLEDELAYEDEXPANSION
 if "%1"=="SUBPROC" goto skip_init
 
 set MSYS2_NAME=ms2inst
-set MSYS2_BITS=32
+set MSYS2_BITS=auto
 set MSYS2_PKGS=mingw-w64-i686-qt5
 ::set MSYS2_PKGS=diffutils,procps,psmisc
 ::set MSYS2_PKGS=%MSYS2_PKGS%,tmux-git &:: THIS IS TMUX
@@ -14,7 +14,7 @@ set MSYS2_PKGS=mingw-w64-i686-qt5
 set MSYS2_USE_MINGW32=1
 set MSYS2_USE_MINGW64=1
 set MSYS2_USE_MSYS=1
-set DT_ICONS=1
+::set DT_ICONS=1
 ::set MSYS2_HOME=.
 ::set MSYS2_ASIS=1
 
@@ -31,6 +31,13 @@ set SCRIPT=%~0
 for /f "delims=\ tokens=*" %%z in ("%SCRIPT%") do (set SCRIPT_CURRENT_DIR=%%~dpz)
 
 if "%MSYS2_DEBUG%"=="1" echo on
+if /i "%MSYS2_BITS%"=="auto" (
+    if exist "%ProgramFiles(x86)%" (
+        set MSYS2_BITS=64
+    ) else (
+        set MSYS2_BITS=32
+    )
+)
 set MSYS2_SETUP=
 if "%MSYS2_BITS%"=="32" (
     set MSYS2_SETUP=msys2-i686-20161025.7z

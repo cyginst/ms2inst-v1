@@ -1,5 +1,5 @@
-.binaries
 *.m32
 *.m64
-root
 .bash_history
+.binaries
+root
