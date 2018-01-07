@@ -60,7 +60,11 @@ if not exist "%MSYS2_ROOT%" (
 set HOME=%MSYS2_ROOT%
 ::set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Syuu"
-echo %cmd%
+echo [1st] %cmd%
+%cmd%
+echo [2nd] %cmd%
+%cmd%
+echo [3rd] %cmd%
 %cmd%
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pkgfile --update"
 echo %cmd%
