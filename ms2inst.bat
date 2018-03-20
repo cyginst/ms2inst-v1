@@ -6,6 +6,7 @@ if "%1"=="SUBPROC" goto skip_init
 
 set MSYS2_NAME=ms2inst
 set MSYS2_BITS=auto
+::set MSYS2_BITS=32
 set MSYS2_PKGS=diffutils,procps,psmisc
 set MSYS2_PKGS=%MSYS2_PKGS%,tmux-git &:: THIS IS TMUX
 set MSYS2_PKGS=%MSYS2_PKGS%,vim      &:: THIS IS VIM
@@ -39,19 +40,18 @@ if /i "%MSYS2_BITS%"=="auto" (
 )
 set MSYS2_SETUP=
 if "%MSYS2_BITS%"=="32" (
-    set MSYS2_SETUP=msys2-i686-20161025.7z
+    set MSYS2_SETUP=msys2-i686-20180320.7z
 ) else if "%MSYS2_BITS%"=="64" (
-    set MSYS2_SETUP=msys2-x86_64-20161025.7z
+    set MSYS2_SETUP=msys2-x86_64-20180320.7z
 ) else (
     echo MSYS2_BITS must be 32 or 64. [Current MSYS2_BITS: %MSYS2_BITS%] Aborting!
     if not "%1"=="SUBPROC" pause
     exit /b
 )
 if not exist .binaries mkdir .binaries
-if not exist wget.exe call :dl_from_url wget.exe https://github.com/cyginst/msys2bin/raw/master/wget.exe
-.binaries\wget -nc --no-check-certificate -P .binaries https://github.com/cyginst/msys2bin/raw/master/7z.exe
-.binaries\wget -nc --no-check-certificate -P .binaries https://github.com/cyginst/msys2bin/raw/master/7z.dll
-.binaries\wget -nc --no-check-certificate -P .binaries https://github.com/cyginst/msys2bin/raw/master/%MSYS2_SETUP%
+call :dl_from_url 7z.exe https://github.com/cyginst/msys2bin/raw/master/7z.exe
+call :dl_from_url 7z.dll https://github.com/cyginst/msys2bin/raw/master/7z.dll
+call :dl_from_url %MSYS2_SETUP% https://github.com/cyginst/msys2bin/raw/master/%MSYS2_SETUP%
 set MSYS2_ROOT=%SCRIPT_CURRENT_DIR%%MSYS2_NAME%.m%MSYS2_BITS%
 if not exist "%MSYS2_ROOT%" (
     if exist "%MSYS2_ROOT%.tmp" rmdir /s /q "%MSYS2_ROOT%.tmp"
