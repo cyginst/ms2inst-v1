@@ -6,7 +6,6 @@ if "%1"=="SUBPROC" goto skip_init
 
 set MSYS2_NAME=ms2inst
 set MSYS2_BITS=auto
-::set MSYS2_BITS=32
 set MSYS2_PKGS=diffutils,procps,psmisc
 set MSYS2_PKGS=%MSYS2_PKGS%,tmux-git &:: THIS IS TMUX
 set MSYS2_PKGS=%MSYS2_PKGS%,vim      &:: THIS IS VIM
@@ -52,11 +51,15 @@ if not exist .binaries mkdir .binaries
 call :dl_from_url 7z.exe https://github.com/cyginst/msys2bin/raw/master/7z.exe
 call :dl_from_url 7z.dll https://github.com/cyginst/msys2bin/raw/master/7z.dll
 call :dl_from_url %MSYS2_SETUP% https://github.com/cyginst/msys2bin/raw/master/%MSYS2_SETUP%
+call :dl_from_url _ck32.exe https://github.com/cyginst/msys2bin/raw/master/_ck32.exe
+if exist "%ProgramFiles(x86)%" call :dl_from_url _ck64.exe https://github.com/cyginst/msys2bin/raw/master/_ck64.exe
 set MSYS2_ROOT=%SCRIPT_CURRENT_DIR%%MSYS2_NAME%.m%MSYS2_BITS%
 if not exist "%MSYS2_ROOT%" (
     if exist "%MSYS2_ROOT%.tmp" rmdir /s /q "%MSYS2_ROOT%.tmp"
     .binaries\7z.exe x -y -o"%MSYS2_ROOT%.tmp" ".binaries\%MSYS2_SETUP%" && move "%MSYS2_ROOT%.tmp" "%MSYS2_ROOT%"
 )
+copy .binaries\_ck32.exe %MSYS2_ROOT%\usr\bin
+if exist "%ProgramFiles(x86)%" copy .binaries\_ck64.exe %MSYS2_ROOT%\usr\bin
 set HOME=%MSYS2_ROOT%
 ::set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Syuu"
