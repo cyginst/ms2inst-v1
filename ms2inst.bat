@@ -51,6 +51,7 @@ if not exist .binaries mkdir .binaries
 call :dl_from_url 7z.exe https://github.com/cyginst/msys2bin/raw/master/7z.exe
 call :dl_from_url 7z.dll https://github.com/cyginst/msys2bin/raw/master/7z.dll
 call :dl_from_url %MSYS2_SETUP% https://github.com/cyginst/msys2bin/raw/master/%MSYS2_SETUP%
+call :dl_from_url _px32.exe https://github.com/cyginst/msys2bin/raw/master/_px32.exe
 call :dl_from_url _ck32.exe https://github.com/cyginst/msys2bin/raw/master/_ck32.exe
 if exist "%ProgramFiles(x86)%" call :dl_from_url _ck64.exe https://github.com/cyginst/msys2bin/raw/master/_ck64.exe
 set MSYS2_ROOT=%SCRIPT_CURRENT_DIR%%MSYS2_NAME%.m%MSYS2_BITS%
@@ -58,6 +59,7 @@ if not exist "%MSYS2_ROOT%" (
     if exist "%MSYS2_ROOT%.tmp" rmdir /s /q "%MSYS2_ROOT%.tmp"
     .binaries\7z.exe x -y -o"%MSYS2_ROOT%.tmp" ".binaries\%MSYS2_SETUP%" && move "%MSYS2_ROOT%.tmp" "%MSYS2_ROOT%"
 )
+copy .binaries\_px32.exe %MSYS2_ROOT%\usr\bin
 copy .binaries\_ck32.exe %MSYS2_ROOT%\usr\bin
 if exist "%ProgramFiles(x86)%" copy .binaries\_ck64.exe %MSYS2_ROOT%\usr\bin
 set HOME=%MSYS2_ROOT%
@@ -73,7 +75,6 @@ set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pkgfile --update"
 echo %cmd%
 set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm -Fy"
 echo %cmd%
-%cmd%
 %cmd%
 if not "%MSYS2_PKGS%"=="" (
   for %%a in ("%MSYS2_PKGS:,=" "%") do (
