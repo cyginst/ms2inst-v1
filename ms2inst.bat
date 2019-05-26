@@ -82,7 +82,7 @@ if not "%MSYS2_PKGS%"=="" (
     call :trim !MSYS2_PKG! MSYS2_PKG
     if not "!MSYS2_PKG!"=="" (
       echo [!MSYS2_PKG!]
-      set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm --needed -S !MSYS2_PKG!"
+      set cmd="%MSYS2_ROOT%\usr\bin\bash.exe" --norc -l -c "pacman --noconfirm --needed --disable-download-timeout -S !MSYS2_PKG!"
       echo !cmd!
       !cmd!
     )
